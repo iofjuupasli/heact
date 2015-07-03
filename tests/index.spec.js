@@ -3,7 +3,7 @@ var assert = require('assert');
 var React = require('react');
 var render = React.renderToStaticMarkup;
 var lib = require('../');
-var create = lib(React.createElement);
+var create = lib;
 
 describe('create', function () {
     it('works for simple div', function () {
