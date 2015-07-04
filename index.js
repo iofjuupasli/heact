@@ -1,8 +1,8 @@
 (function (root, factory) {
     if (typeof define === 'function' && define.amd) {
-        define(['react'], factory);
+        define(['react/addons'], factory);
     } else if (typeof exports === 'object') {
-        module.exports = factory(require('react'));
+        module.exports = factory(require('react/addons'));
     } else {
         root.h = factory(root.React);
     }
