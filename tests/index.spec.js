@@ -1,7 +1,8 @@
 var assert = require('assert');
 
+var ReactDOMServer = require('react-dom/server');
 var React = require('react');
-var render = React.renderToStaticMarkup;
+var render = ReactDOMServer.renderToStaticMarkup;
 var lib = require('../');
 var create = lib;
 

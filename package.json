@@ -1,6 +1,6 @@
 {
   "name": "heact",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "Extension for React createElement",
   "main": "index.js",
   "directories": {
@@ -12,9 +12,10 @@
   "author": "Tretyak Valery <iofjuupasli@gmail.com>",
   "license": "MIT",
   "devDependencies": {
-    "mocha": "^2.2.5"
+    "mocha": "^2.2.5",
+    "react-dom": "^0.14.3"
   },
   "dependencies": {
-    "react": "0"
+    "react": "0.14"
   }
 }
