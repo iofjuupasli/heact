@@ -23,7 +23,7 @@
 
     var orig = React.createElement;
 
-    return function (elem, options) {
+    var h = function (elem, options) {
         if (isString(elem)) {
             if (elem && elem.indexOf('.') === -1) {
                 return orig.apply(null, arguments);
@@ -36,10 +36,12 @@
             var resultOptions;
             if (options) {
                 resultOptions = clone(options);
-                if (options.className) {
-                    resultOptions.className += ' ' + className;
-                } else {
-                    resultOptions.className = className;
+                if (className) {
+                    if (options.className) {
+                        resultOptions.className += ' ' + className;
+                    } else {
+                        resultOptions.className = className;
+                    }
                 }
             } else {
                 resultOptions = {
@@ -57,6 +59,23 @@
             }
         } else {
             return orig.apply(null, arguments);
+        }
+    };
+
+    return function (ns) {
+        if (!ns) {
+            return h;
+        }
+        return function (elem) {
+            if (isString(elem)) {
+                var l = arguments.length - 1;
+                var rest = new Array(l);
+                while (l--) rest[l] = arguments[l + 1];
+                return h.apply(
+                    null, [elem + ns].concat(rest));
+            } else {
+                return h.apply(null, arguments);
+            }
         }
     };
 }));

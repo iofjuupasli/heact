@@ -1,7 +1,24 @@
 # heact
 
-# Deprecated
+Wrapper for `React.createElement`.
 
-Use JSnoX instead.
+```js
+h('.my-class-name', {
+    someProp: 100
+}, 'content');
+// is the same as
+React.createElement('div', {
+    className: 'my-class-name',
+    someProp: 100
+}, 'content');
+```
 
-API of JSnoX was changed and now almost the same as in heact (as in React.createElement).
+Using namespaces:
+
+```js
+import H from 'heact';
+const h = H('.namespace');
+h('.my-class-name');
+```
+
+For further details look at tests.
