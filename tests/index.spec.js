@@ -68,22 +68,26 @@ describe('create w/o namespace', function () {
             '<div></div>'
         );
     });
-    it.skip('perf: ~80% of orig speed', function () {
-        this.timeout(20000);
-        var start = process.hrtime();
-        for (i = 0; i < 10000; i++) {
-            render(h('.foo'));
-        }
-        var a = process.hrtime(start);
-        var aNano = a[0] * 1e9 + a[1];
+    it.skip('perf: ~92% of orig speed', function () {
+        this.timeout(30000);
+        const iterations = 50000;
+        var start;
         start = process.hrtime();
-        for (var i = 0; i < 10000; i++) {
+        for (var i = 0; i < iterations; i++) {
             render(React.createElement('div', {
-                className: 'foo'
+                className: 'foo bar'
             }));
         }
         var b = process.hrtime(start);
         var bNano = b[0] * 1e9 + b[1];
+        start = process.hrtime();
+        for (i = 0; i < iterations; i++) {
+            render(h('.foo', {
+                className: 'bar'
+            }));
+        }
+        var a = process.hrtime(start);
+        var aNano = a[0] * 1e9 + a[1];
         console.log('%d % of original speed', ~~(bNano / aNano * 100));
     });
 });

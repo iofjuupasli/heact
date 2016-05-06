@@ -13,68 +13,56 @@
                 Object.prototype.toString.call(str) === '[object String]');
     }
 
-    function clone(obj) {
-        var target = {};
-        for (var i in obj) {
-            target[i] = obj[i];
-        }
-        return target;
-    }
-
     var orig = React.createElement;
 
     var h = function (elem, options) {
-        if (isString(elem)) {
-            if (elem && elem.indexOf('.') === -1) {
-                return orig.apply(null, arguments);
-            }
-            var classNames = elem.split('.');
-            var resultElem = classNames.shift() || 'div';
-            var className = classNames.length ?
-                classNames.join(' ') :
-                undefined;
-            var resultOptions;
-            if (options) {
-                resultOptions = clone(options);
-                if (className) {
-                    if (options.className) {
-                        resultOptions.className += ' ' + className;
-                    } else {
-                        resultOptions.className = className;
-                    }
+        if (elem && elem.indexOf('.') === -1) {
+            return orig.apply(null, arguments);
+        }
+        var classNames = elem.split('.');
+        var resultElem = classNames.shift() || 'div';
+        var className = classNames.length ?
+            classNames.join(' ') :
+            undefined;
+        var resultOptions;
+        if (options) {
+            resultOptions = options;
+            if (className) {
+                if (options.className) {
+                    resultOptions.className += ' ' + className;
+                } else {
+                    resultOptions.className = className;
                 }
-            } else {
-                resultOptions = {
-                    className: className
-                };
-            }
-            if (arguments.length > 2) {
-                var l = arguments.length - 2;
-                var rest = new Array(l);
-                while (l--) rest[l] = arguments[l + 2];
-                return orig.apply(
-                    null, [resultElem, resultOptions].concat(rest));
-            } else {
-                return orig(resultElem, resultOptions);
             }
         } else {
-            return orig.apply(null, arguments);
+            resultOptions = {
+                className: className
+            };
+        }
+        if (arguments.length > 2) {
+            var l = arguments.length - 2;
+            var rest = new Array(l);
+            while (l--) rest[l] = arguments[l + 2];
+            return orig.apply(
+                null, [resultElem, resultOptions].concat(rest));
+        } else {
+            return orig(resultElem, resultOptions);
         }
     };
 
     return function (ns) {
-        if (!ns) {
-            return h;
-        }
         return function (elem) {
             if (isString(elem)) {
+                if (!ns) {
+                    return h.apply(null, arguments);
+                }
                 var l = arguments.length - 1;
                 var rest = new Array(l);
                 while (l--) rest[l] = arguments[l + 1];
                 return h.apply(
                     null, [elem + ns].concat(rest));
             } else {
-                return h.apply(null, arguments);
+                return orig.apply(null, arguments);
             }
         }
     };
